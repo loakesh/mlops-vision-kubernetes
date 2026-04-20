@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cv-pipeline-api
+  labels:
+    app: cv-pipeline-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cv-pipeline-api
+  template:
+    metadata:
+      labels:
+        app: cv-pipeline-api
+    spec:
+      containers:
+      - name: api
+        # Replace <AWS_ACCOUNT_ID> and <REGION> when pushing to ECR
+        image: <AWS_ACCOUNT_ID>.dkr.ecr.<REGION>.amazonaws.com/cv-pipeline:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+        env:
+        # Pass S3 Bucket Name
+        - name: S3_BUCKET
+          value: "mlops-cv-artifacts-bucket"
+        # AWS Credentials (WARNING: For local minikube only. In EKS, use IAM Roles for Service Accounts)
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: aws-credentials
+              key: AWS_SECRET_ACCESS_KEY
+        resources:
+          requests:
+            cpu: "250m"
+            memory: "512Mi"
+          limits:
+            cpu: "500m"
+            memory: "1Gi"
+      # If using private ECR in Minikube, you need an imagePullSecret
+      # imagePullSecrets:
+      # - name: ecr-registry-secret

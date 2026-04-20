@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cv-pipeline-service
+spec:
+  # LoadBalancer type exposes it outside the cluster (works via `minikube tunnel` locally)
+  type: LoadBalancer 
+  selector:
+    app: cv-pipeline-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
