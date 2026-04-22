@@ -58,6 +58,7 @@ resource "aws_instance" "jenkins_server" {
 
   vpc_security_group_ids = [aws_security_group.jenkins_sg.id]
   iam_instance_profile   = aws_iam_instance_profile.jenkins_profile.name
+  key_name               = "jenkins"
 
   # Run the bash script on startup to install Jenkins and Docker
   user_data = file("${path.module}/install_jenkins.sh")

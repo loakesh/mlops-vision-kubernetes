@@ -4,7 +4,7 @@ pipeline {
     environment {
         AWS_REGION = 'us-east-1'
         // In a real pipeline, you would extract the account ID dynamically or inject it via Jenkins parameters
-        ECR_REGISTRY = '<YOUR_AWS_ACCOUNT_ID>.dkr.ecr.us-east-1.amazonaws.com'
+        ECR_REGISTRY = '579763396128.dkr.ecr.us-east-1.amazonaws.com'
         ECR_REPOSITORY = 'cv-pipeline'
         IMAGE_TAG = "${env.BUILD_NUMBER}" // Uses the Jenkins build number as the tag
     }

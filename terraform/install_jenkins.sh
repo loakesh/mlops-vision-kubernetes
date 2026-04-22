@@ -2,8 +2,8 @@
 # Update OS
 yum update -y
 
-# Install Java 17 (Required for Jenkins)
-yum install -y fontconfig java-17-amazon-corretto-devel
+# Install Java 21 (Required for Jenkins)
+yum install -y fontconfig java-21-amazon-corretto-devel
 
 # Add Jenkins Repo and Key
 wget -O /etc/yum.repos.d/jenkins.repo https://pkg.jenkins.io/redhat-stable/jenkins.repo
