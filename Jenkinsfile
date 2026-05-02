@@ -41,5 +41,20 @@ pipeline {
                 sh "docker push ${ECR_REGISTRY}/${ECR_REPOSITORY}:latest"
             }
         }
+
+        stage('Deploy to AWS EKS') {
+            steps {
+                sh '''
+                # 1. Authenticate with the EKS cluster (Jenkins has permission via its IAM Role!)
+                aws eks update-kubeconfig --region ${AWS_REGION} --name cv-pipeline-cluster
+
+                # 2. Update the deployment file to use the exact image tag we just built
+                sed -i "s|image: .*|image: ${ECR_REGISTRY}/${ECR_REPOSITORY}:${IMAGE_TAG}|g" k8s/deployment.yaml
+
+                # 3. Apply the changes to the cluster
+                kubectl apply -f k8s/
+                '''
+            }
+        }
     }
 }

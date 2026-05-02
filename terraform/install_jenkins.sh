@@ -25,3 +25,8 @@ systemctl restart jenkins
 
 # Install Git (Needed for Jenkins to checkout code)
 yum install -y git
+
+# Install Kubectl (Needed for Jenkins to deploy to EKS)
+curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.30.0/2024-05-12/bin/linux/amd64/kubectl
+chmod +x ./kubectl
+mv ./kubectl /usr/local/bin/kubectl

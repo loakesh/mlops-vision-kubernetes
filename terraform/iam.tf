@@ -59,6 +59,14 @@ resource "aws_iam_policy" "jenkins_policy" {
           "ecr:PutImage"
         ]
         Resource = "*"
+      },
+      {
+        # EKS Permissions
+        Effect = "Allow"
+        Action = [
+          "eks:DescribeCluster"
+        ]
+        Resource = "*"
       }
     ]
   })
